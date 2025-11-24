@@ -1,0 +1,1 @@
+function confirmDelete(e){ if(!confirm('¿Confirmas que deseas eliminar este paciente?')){ e.preventDefault(); return false;} return true;}

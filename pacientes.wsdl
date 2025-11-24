@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<definitions name="PacientesService"
+    targetNamespace="http://example.org/pacientes"
+    xmlns:tns="http://example.org/pacientes"
+    xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/"
+    xmlns:xsd="http://www.w3.org/2001/XMLSchema"
+    xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">
+
+  <types>
+    <xsd:schema targetNamespace="http://example.org/pacientes">
+      <xsd:element name="Paciente">
+        <xsd:complexType>
+          <xsd:sequence>
+            <xsd:element name="cedula" type="xsd:string"/>
+            <xsd:element name="nombres" type="xsd:string"/>
+            <xsd:element name="apellidos" type="xsd:string"/>
+            <xsd:element name="telefono" type="xsd:string" minOccurs="0"/>
+            <xsd:element name="direccion" type="xsd:string" minOccurs="0"/>
+            <xsd:element name="fecha_nacimiento" type="xsd:date" minOccurs="0"/>
+          </xsd:sequence>
+        </xsd:complexType>
+      </xsd:element>
+    </xsd:schema>
+  </types>
+
+  <message name="RegistrarPacienteRequest"><part name="parameters" element="tns:Paciente"/></message>
+  <message name="RegistrarPacienteResponse"><part name="parameters" type="xsd:boolean"/></message>
+
+  <message name="BuscarPacientePorCedulaRequest"><part name="cedula" type="xsd:string"/></message>
+  <message name="BuscarPacientePorCedulaResponse"><part name="paciente" element="tns:Paciente"/></message>
+
+  <message name="ListarTodosLosPacientesRequest"/>
+  <message name="ListarTodosLosPacientesResponse"><part name="lista" type="xsd:anyType"/></message>
+
+  <message name="ModificarPacienteRequest"><part name="cedula" type="xsd:string"/><part name="paciente" element="tns:Paciente"/></message>
+  <message name="ModificarPacienteResponse"><part name="result" type="xsd:boolean"/></message>
+
+  <message name="EliminarPacienteRequest"><part name="cedula" type="xsd:string"/></message>
+  <message name="EliminarPacienteResponse"><part name="result" type="xsd:boolean"/></message>
+
+  <portType name="PacientesPortType">
+    <operation name="RegistrarPaciente"><input message="tns:RegistrarPacienteRequest"/><output message="tns:RegistrarPacienteResponse"/></operation>
+    <operation name="BuscarPacientePorCedula"><input message="tns:BuscarPacientePorCedulaRequest"/><output message="tns:BuscarPacientePorCedulaResponse"/></operation>
+    <operation name="ListarTodosLosPacientes"><input message="tns:ListarTodosLosPacientesRequest"/><output message="tns:ListarTodosLosPacientesResponse"/></operation>
+    <operation name="ModificarPaciente"><input message="tns:ModificarPacienteRequest"/><output message="tns:ModificarPacienteResponse"/></operation>
+    <operation name="EliminarPaciente"><input message="tns:EliminarPacienteRequest"/><output message="tns:EliminarPacienteResponse"/></operation>
+  </portType>
+
+  <binding name="PacientesSoapBinding" type="tns:PacientesPortType">
+    <soap:binding style="document" transport="http://schemas.xmlsoap.org/soap/http"/>
+    <operation name="RegistrarPaciente"><soap:operation soapAction="urn:RegistrarPaciente"/><input><soap:body use="literal"/></input><output><soap:body use="literal"/></output></operation>
+    <operation name="BuscarPacientePorCedula"><soap:operation soapAction="urn:BuscarPacientePorCedula"/><input><soap:body use="literal"/></input><output><soap:body use="literal"/></output></operation>
+    <operation name="ListarTodosLosPacientes"><soap:operation soapAction="urn:ListarTodosLosPacientes"/><input><soap:body use="literal"/></input><output><soap:body use="literal"/></output></operation>
+    <operation name="ModificarPaciente"><soap:operation soapAction="urn:ModificarPaciente"/><input><soap:body use="literal"/></input><output><soap:body use="literal"/></output></operation>
+    <operation name="EliminarPaciente"><soap:operation soapAction="urn:EliminarPaciente"/><input><soap:body use="literal"/></input><output><soap:body use="literal"/></output></operation>
+  </binding>
+
+  <service name="PacientesService">
+    <port name="PacientesPort" binding="tns:PacientesSoapBinding">
+      <soap:address location="http://localhost/proyecto_soap_mysql_fixed/server/server.php"/>
+    </port>
+  </service>
+
+</definitions>
